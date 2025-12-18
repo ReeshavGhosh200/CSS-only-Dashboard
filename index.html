@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Climate Intelligence | Grid Optimized</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <input type="checkbox" id="theme-toggle" class="logic-gate">
+    <input type="checkbox" id="compact-toggle" class="logic-gate">
+    <input type="checkbox" id="glass-toggle" class="logic-gate" checked>
+
+    <div class="app-shell">
+        <header class="dashboard-header">
+            <div class="brand">
+                <div class="logo-mark"></div>
+                <h1>ECO-CORE <span class="badge">PRO</span></h1>
+            </div>
+            <p>Pure CSS Interactive Dashboard • No-JS Engine</p>
+        </header>
+
+        <main class="dashboard-container">
+            <div class="card kpi" style="grid-area: kpi1">
+                <span class="kpi__label">Temperature Index</span>
+                <span class="kpi__value text-hot">+1.18°C</span>
+            </div>
+            <div class="card kpi" style="grid-area: kpi2">
+                <span class="kpi__label">Atmospheric CO₂</span>
+                <span class="kpi__value">417.2 <small>ppm</small></span>
+            </div>
+            <div class="card kpi" style="grid-area: kpi3">
+                <span class="kpi__label">Renewable Share</span>
+                <span class="kpi__value text-cool">29.0%</span>
+            </div>
+
+            <article class="card chart-box" style="grid-area: main-chart">
+                <h3 class="chart-title">Temp Anomaly by Decade (Hover to Animate)</h3>
+                <div class="bar-chart-area">
+                    <div class="bar" style="--value: 20" data-year="1980"></div>
+                    <div class="bar" style="--value: 33" data-year="1990"></div>
+                    <div class="bar" style="--value: 54" data-year="2000"></div>
+                    <div class="bar" style="--value: 70" data-year="2010"></div>
+                    <div class="bar" style="--value: 95" data-year="2020"></div>
+                </div>
+            </article>
+
+            <article class="card donut-container" style="grid-area: side-chart">
+                <h3 class="chart-title">Energy Distribution</h3>
+                <div class="donut"></div>
+                <div class="legend">
+                    <div class="legend-item"><span class="dot" style="background:#34d399"></span> Clean</div>
+                    <div class="legend-item"><span class="dot" style="background:#fbbf24"></span> Nuclear</div>
+                    <div class="legend-item"><span class="dot" style="background:#f87171"></span> Carbon</div>
+                </div>
+            </article>
+
+            <div class="card tabs-widget" style="grid-area: tabs-widget">
+                <input type="radio" name="tab-group" id="tab1" checked style="display: none;">
+                <input type="radio" name="tab-group" id="tab2" style="display: none;">
+                
+                <div class="tab-nav">
+                    <label for="tab1">Satellite</label>
+                    <label for="tab2">Sensors</label>
+                </div>
+
+                <div class="tab-content content1">Active Satellite: EOS-A1</div>
+                <div class="tab-content content2">Ground Stations: 42 Online</div>
+            </div>
+
+            <article class="card accordion-widget" style="grid-area: accordion-widget">
+                <details open>
+                    <summary>System Health <span class="pulse-dot"></span></summary>
+                    <div class="details-inner">
+                        <p>Core Temp: Stable</p>
+                        <p>Uptime: 99.9%</p>
+                    </div>
+                </details>
+            </article>
+
+            <article class="card timeline-widget" style="grid-area: timeline">
+                <h3 class="chart-title">Anomalous Event Stream</h3>
+                <div class="stream">
+                    <div class="event active">
+                        <span class="time">14:02</span>
+                        <span class="label">Thermal Peak Detected</span>
+                        <p>Arctic Sector 7G reported +2.4°C variance.</p>
+                    </div>
+                    <div class="event">
+                        <span class="time">12:45</span>
+                        <span class="label">Satellite Sync</span>
+                        <p>EOS-A1 Orbital calibration completed.</p>
+                    </div>
+                    <div class="event">
+                        <span class="time">09:12</span>
+                        <span class="label">Sensor Offline</span>
+                        <p>Station "Deep-Blue" signal loss (High Seas).</p>
+                    </div>
+                </div>
+            </article>
+
+            <article class="card heatmap-container" style="grid-area: matrix">
+                <h3 class="chart-title">Thermal Intensity Matrix (36-Month Scan)</h3>
+                <div class="heatmap-grid">
+                    <div class="cell" style="--intensity: 0.1"></div><div class="cell" style="--intensity: 0.3"></div>
+                    <div class="cell" style="--intensity: 0.6"></div><div class="cell" style="--intensity: 0.9"></div>
+                    <div class="cell" style="--intensity: 0.4"></div><div class="cell" style="--intensity: 0.2"></div>
+                    <div class="cell" style="--intensity: 0.8"></div><div class="cell" style="--intensity: 1.0"></div>
+                    <div class="cell" style="--intensity: 0.5"></div><div class="cell" style="--intensity: 0.2"></div>
+                    <div class="cell" style="--intensity: 0.3"></div><div class="cell" style="--intensity: 0.4"></div>
+                </div>
+            </article>
+
+            <section class="card settings-panel" style="grid-area: settings">
+                <div class="settings-header">
+                    <span class="settings-title">System Preferences</span>
+                </div>
+                <div class="settings-wrapper">
+                    <label class="setting-item" for="theme-toggle">
+                        <span>Light Mode</span>
+                        <div class="toggle"><div class="ball"></div></div>
+                    </label>
+                    <label class="setting-item" for="compact-toggle">
+                        <span>Compact View</span>
+                        <div class="toggle"><div class="ball"></div></div>
+                    </label>
+                    <label class="setting-item" for="glass-toggle">
+                        <span>Glass UI</span>
+                        <div class="toggle"><div class="ball"></div></div>
+                    </label>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="dashboard-footer">
+            <div class="footer-content">
+                <div class="legal-notice">
+                    <strong>NOTICE OF NON-RELIANCE:</strong> 
+                    This interface is a conceptual demonstration. All environmental metrics, satellite telemetry, 
+                    and atmospheric data displayed herein are generated for illustrative purposes and are entirely fictional. 
+                    No part of this data should be utilized for research, policy-making, or navigation.
+                </div>
+                <div class="footer-meta">
+                    <span>&copy; <span id="date"></span> Reeshav_Ghosh200</span>
+                    <span class="separator">|</span>
+                    <a href="#">Data Protocol</a>
+                    <span class="separator">|</span>
+                    <a href="#">Regulatory Compliance</a>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        date = new Date();
+        document.getElementById("date").innerHTML = date.getFullYear();
+    </script>
+</body>
+</html>

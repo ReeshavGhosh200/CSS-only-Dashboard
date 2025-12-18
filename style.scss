@@ -1,0 +1,377 @@
+// --- DESIGN TOKENS ---
+$accent: #38bdf8;
+$hot: #fb7185;
+$cool: #34d399;
+
+:root {
+  --bg-page: #080a0f; // Deep space black
+  --bg-card: #11151c; // Dark slate
+  --text-main: #f8fafc;
+  --text-muted: #64748b;
+  --border: rgba(255, 255, 255, 0.05);
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+// --- THEME ENGINE ---
+#theme-toggle:checked ~ .app-shell {
+  --bg-page: #f8fafc;
+  --bg-card: #ffffff;
+  --text-main: #0f172a;
+  --text-muted: #94a3b8;
+  --border: rgba(0, 0, 0, 0.05);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+#compact-toggle:checked ~ .app-shell {
+  .dashboard-container { gap: 1rem;}
+  .card { padding: 1rem; }
+  .kpi__value { font-size: 1.8rem; }
+}
+
+// --- LAYOUT ENGINE ---
+.logic-gate { position: absolute; opacity: 0; pointer-events: none; }
+
+body {
+  margin: 0;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  transition: all 0.4s ease;
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 4rem;
+}
+
+.dashboard-header {
+  text-align: center;
+  padding: 3rem 0;
+  
+  .brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    
+    .logo-mark { width: 30px; height: 30px; border: 4px solid $accent; border-radius: 8px; }
+    h1 { margin: 0; font-size: 2.2rem; letter-spacing: -2px; }
+  }
+  
+  p { color: var(--text-muted); font-size: 0.9rem; margin: 0; }
+}
+
+// --- ADVANCED GRID ---
+.dashboard-container {
+  display: grid;
+  width: 95%;
+  max-width: 1400px; // Increased for large desktops
+  gap: 1rem;
+  margin: 0 auto;
+
+  // MOBILE: Single column stack
+  grid-template-areas: 
+    "kpi1" "kpi2" "kpi3"
+    "main-chart"
+    "side-chart"
+    "timeline"
+    "matrix"
+    "accordion-widget"
+    "tabs-widget"
+    "settings";
+  
+  grid-template-columns: 1fr;
+
+  // TABLET / SMALL DESKTOP (768px+)
+  @media (min-width: 768px) {
+    gap: 1.5rem;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+      "kpi1 kpi2"
+      "kpi3 accordion-widget"
+      "main-chart main-chart"
+      "side-chart tabs-widget"
+      "matrix matrix"
+      "timeline timeline"
+      "settings settings";
+  }
+
+  // LARGE DESKTOP (1100px+)
+  @media (min-width: 1100px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas: 
+      "main-chart main-chart kpi3"
+      "main-chart main-chart side-chart"
+      "kpi1 kpi2 side-chart"
+      "timeline matrix matrix"
+      "timeline accordion-widget tabs-widget"
+      "settings settings settings";
+  }
+}
+
+// --- WIDGET STYLING ---
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: var(--shadow);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    border-color: rgba($accent, 0.3);
+    transform: translateY(-5px);
+  }
+
+  &.kpi {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    .kpi__label { font-size: 0.7rem; font-weight: 800; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+    .kpi__value { 
+        font-size: 2.5rem; font-weight: 800; margin-top: 10px;
+        &.text-hot { color: $hot; }
+        &.text-cool { color: $cool; }
+    }
+  }
+}
+
+// Visuals positioning
+.bar-chart-area {
+  display: flex; align-items: flex-end; justify-content: space-around;
+  height: 220px; border-bottom: 2px solid var(--border);
+  .bar {
+    width: 12%; background: linear-gradient(to top, $accent, $hot);
+    border-radius: 8px 8px 0 0; height: 15%; transition: 1.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+    position: relative;
+    &::after { content: attr(data-year); position: absolute; bottom: -30px; left: 50%; transform: translateX(-50%); font-size: 11px; color: var(--text-muted); }
+  }
+}
+.chart-box:hover .bar { height: calc(var(--value) * 1%); }
+
+.donut {
+  width: 160px; height: 160px; margin: 0 auto; border-radius: 50%;
+  background: conic-gradient($cool 0% 25%, #fbbf24 25% 60%, $hot 60% 100%);
+  mask: radial-gradient(transparent 60%, black 61%);
+  -webkit-mask: radial-gradient(transparent 60%, black 61%);
+  transition: transform 1s ease-in-out;
+  &:hover{
+    transform: rotate(180deg);
+  }
+}
+
+.heatmap-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr); gap: 10px;
+  .cell { aspect-ratio: 1; border-radius: 6px; background: rgba($hot, var(--intensity)); }
+  .cell:hover{border: 1px solid #38bdf8;}
+}
+
+// --- SETTINGS DECK ---
+.settings-panel {
+  .settings-wrapper {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 1.5rem;
+    
+    .setting-item {
+      display: flex; align-items: center; justify-content: space-between;
+      background: rgba(var(--text-muted), 0.05); padding: 15px 20px; border-radius: 12px;
+      cursor: pointer; font-weight: 600;
+      
+      .toggle {
+        width: 44px; height: 24px; background: #334155; border-radius: 20px; position: relative;
+        .ball { position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; background: white; border-radius: 50%; transition: 0.3s; }
+      }
+    }
+  }
+}
+
+// Logic Mapping for Switches
+#theme-toggle:checked ~ .app-shell .setting-item[for="theme-toggle"],
+#compact-toggle:checked ~ .app-shell .setting-item[for="compact-toggle"],
+#glass-toggle:checked ~ .app-shell .setting-item[for="glass-toggle"] {
+  .toggle { background: $accent; .ball { transform: translateX(20px); } }
+}
+
+.pulse-dot {
+  width: 8px; height: 8px; background: $cool; border-radius: 50%;
+  display: inline-block; margin-left: 10px;
+  box-shadow: 0 0 0 rgba($cool, 0.4);
+  animation: pulse 2s infinite;
+}
+
+.setting-item {
+  .toggle {
+    transition: background 0.3s ease;
+    .ball { transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
+  }
+}
+
+.tab-content { display: none; padding-top: 1rem; }
+#tab1:checked ~ .content1, 
+#tab2:checked ~ .content2 { display: block; }
+
+.tab-nav {
+  display: flex; gap: 10px; border-bottom: 1px solid var(--border);
+  label { cursor: pointer; padding: 5px 10px; opacity: 0.5; transition: 0.3s; }
+}
+#tab1:checked ~ .tab-nav label[for="tab1"],
+#tab2:checked ~ .tab-nav label[for="tab2"] { opacity: 1; border-bottom: 2px solid $accent; }
+
+// Logic for the toggle animation
+#glass-toggle:checked ~ .app-shell {
+  .card { 
+    backdrop-filter: blur(12px); 
+    background: rgba(255, 255, 255, 0.03); 
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 0 0 0 rgba($cool, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba($cool, 0); }
+  100% { box-shadow: 0 0 0 0 rgba($cool, 0); }
+}
+
+.timeline-widget {
+  .stream {
+    position: relative;
+    padding-left: 20px;
+    margin-top: 1.5rem;
+    
+    // The vertical line
+    &::before {
+      content: '';
+      position: absolute; left: 0; top: 0; bottom: 0;
+      width: 2px; background: var(--border);
+    }
+  }
+
+  .event {
+    position: relative;
+    padding-bottom: 1.5rem;
+    cursor: pointer;
+    transition: 0.3s;
+
+    // The dot on the line
+    &::before {
+      content: '';
+      position: absolute; left: -24px; top: 5px;
+      width: 10px; height: 10px;
+      border-radius: 50%; background: #334155;
+      border: 2px solid var(--bg-card);
+      z-index: 2; transition: 0.3s;
+    }
+
+    .time { font-size: 0.7rem; font-weight: 800; color: $accent; display: block; }
+    .label { font-size: 0.9rem; font-weight: 600; }
+    p { font-size: 0.8rem; color: var(--text-muted); margin: 5px 0 0; display: none; }
+
+    &:hover, &.active {
+      &::before { background: $accent; box-shadow: 0 0 10px $accent; }
+      p { display: block; animation: slideIn 0.3s ease; }
+    }
+  }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+// Responsive Adjustments
+.card {
+  padding: 1.5rem; // Slightly smaller padding for mobile
+  
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
+
+  &.kpi .kpi__value {
+    font-size: clamp(1.8rem, 5vw, 2.5rem); // Fluid typography
+  }
+}
+
+.bar-chart-area {
+  height: clamp(150px, 30vh, 220px); // Scales with height of screen
+}
+
+.settings-panel .settings-wrapper {
+  // Stack settings on mobile, row on desktop
+  grid-template-columns: 1fr; 
+  gap: 1rem;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.heatmap-grid {
+  // 6 columns on mobile, 12 on desktop
+  grid-template-columns: repeat(6, 1fr);
+  
+  @media (min-width: 1100px) {
+    grid-template-columns: repeat(12, 1fr);
+  }
+}
+
+.dashboard-footer {
+  width: 95%;
+  max-width: 1200px;
+  margin-top: 3rem;
+  padding: 2rem 0;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  
+  .footer-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    
+    @media (min-width: 768px) {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+  }
+
+  .legal-notice {
+    font-size: 0.75rem;
+    line-height: 1.6;
+    max-width: 600px;
+    opacity: 0.7;
+    
+    strong {
+      color: $hot; // Uses your $hot token to draw slight attention to the warning
+      letter-spacing: 0.5px;
+    }
+  }
+
+  .footer-meta {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.3s;
+      &:hover { color: $accent; }
+    }
+
+    .separator {
+      margin: 0 10px;
+      opacity: 0.3;
+    }
+  }
+}
+
+// Ensure footer stays consistent in Light/Glass modes
+#theme-toggle:checked ~ .app-shell .dashboard-footer {
+  border-color: rgba(0, 0, 0, 0.1);
+}
