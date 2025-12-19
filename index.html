@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CSS Only Web Dashboard</title>
+    <title>Advanced Climate Intelligence | Grid Optimized</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
@@ -57,16 +57,22 @@
             </article>
 
             <div class="card tabs-widget" style="grid-area: tabs-widget">
-                <input type="radio" name="tab-group" id="tab1" checked style="display: none;">
-                <input type="radio" name="tab-group" id="tab2" style="display: none;">
+                <input type="radio" name="tab-group" id="tab1" class="tab-logic" checked>
+                <input type="radio" name="tab-group" id="tab2" class="tab-logic">
                 
                 <div class="tab-nav">
                     <label for="tab1">Satellite</label>
                     <label for="tab2">Sensors</label>
                 </div>
 
-                <div class="tab-content content1">Active Satellite: EOS-A1</div>
-                <div class="tab-content content2">Ground Stations: 42 Online</div>
+                <div class="tab-content content1">
+                    <p><strong>Active Satellite:</strong> EOS-A1</p>
+                    <p><strong>Orbit:</strong> Sun-Synchronous</p>
+                </div>
+                <div class="tab-content content2">
+                    <p><strong>Ground Stations:</strong> 42 Online</p>
+                    <p><strong>Last Sync:</strong> 2ms ago</p>
+                </div>
             </div>
 
             <article class="card accordion-widget" style="grid-area: accordion-widget">
