@@ -8,9 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <input type="checkbox" id="theme-toggle" class="logic-gate">
-    <input type="checkbox" id="compact-toggle" class="logic-gate">
-    <input type="checkbox" id="glass-toggle" class="logic-gate" checked>
+    <input type="checkbox" class="logic-gate theme-toggle_" id="theme-toggle">
+    <input type="checkbox" class="logic-gate compact-toggle_" id="compact-toggle">
+    <input type="checkbox" class="logic-gate glass-toggle_" id="glass-toggle">
 
     <div class="app-shell">
         <header class="dashboard-header">
@@ -57,8 +57,9 @@
             </article>
 
             <div class="card tabs-widget" style="grid-area: tabs-widget">
-                <input type="radio" name="tab-group" id="tab1" class="tab-logic" checked>
-                <input type="radio" name="tab-group" id="tab2" class="tab-logic">
+                <!--  -->
+                <input type="radio" name="tab-group" class="tab1_" id="tab1" class="tab-logic" checked style="display: none;">
+                <input type="radio" name="tab-group" class="tab2_" id="tab2" class="tab-logic" style="display: none;">
                 
                 <div class="tab-nav">
                     <label for="tab1">Satellite</label>
@@ -151,9 +152,9 @@
                 <div class="footer-meta">
                     <span>&copy; <span id="date"></span> Reeshav_Ghosh200</span>
                     <span class="separator">|</span>
-                    <a href="#">Data Protocol</a>
+                    <a href="https://github.com/ReeshavGhosh200">My Github</a>
                     <span class="separator">|</span>
-                    <a href="#">Regulatory Compliance</a>
+                    <a href="https://github.com/ReeshavGhosh200/CSS-only-Dashboard">Github Repository</a>
                 </div>
             </div>
         </footer>
