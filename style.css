@@ -1,74 +1,73 @@
-@charset "UTF-8";
-/* --- RESET & TOKENS --- */
-* {
-  box-sizing: border-box;
-}
-
+/* --- CORE TOKENS & RESET --- */
 :root {
   --bg-page: #080a0f;
   --bg-card: #11151c;
   --text-main: #f8fafc;
   --text-muted: #64748b;
   --border: rgba(255, 255, 255, 0.05);
-  --shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  --shadow: 0 1.25rem 3.125rem rgba(0, 0, 0, 0.5);
   --accent: #38bdf8;
   --hot: #fb7185;
   --cool: #34d399;
 }
 
-/* --- LOGIC GATES --- */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* --- NO-JS LOGIC GATES --- */
+/* This practice uses hidden inputs to manage UI state (Themes, Tabs, Toggles) without JavaScript. 
+   'position: fixed' prevents the browser from auto-scrolling to the top when a label is clicked. */
 .logic-gate {
-  position: fixed; /* Fixed prevents page jump when clicking labels */
+  position: fixed;
+  top: 0;
+  left: 0;
   opacity: 0;
   pointer-events: none;
 }
 
-/* --- THEME ENGINE (Variables) --- */
-#theme-toggle:checked ~ .app-shell {
+/* --- THEME ENGINE --- */
+/* Uses the CSS 'General Sibling Combinator' (~) to update variables when a checkbox is checked. */
+.theme-toggle_:checked ~ .app-shell {
   --bg-page: #f1f5f9;
   --bg-card: #ffffff;
   --text-main: #0f172a;
-  --text-muted: #64748b;
   --border: rgba(0, 0, 0, 0.08);
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  --shadow: 0 0.625rem 1.875rem rgba(0, 0, 0, 0.05);
 }
 
-/* --- THEME ENGINE (Glass UI Implementation) --- */
-/* Dark Glass */
-#glass-toggle:checked ~ .app-shell .card {
+.glass-toggle_:checked ~ .app-shell .card {
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(0.75rem);
+  -webkit-backdrop-filter: blur(0.75rem);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Light Glass (Compound Logic) */
-#theme-toggle:checked ~ #glass-toggle:checked ~ .app-shell .card {
+.theme-toggle_:checked ~ .glass-toggle_:checked ~ .app-shell .card {
   background: rgba(255, 255, 255, 0.4);
   border: 1px solid rgba(255, 255, 255, 0.6);
 }
 
-/* --- COMPACT ENGINE --- */
-#compact-toggle:checked ~ .app-shell .dashboard-container {
+.compact-toggle_:checked ~ .app-shell .dashboard-container {
   gap: 0.75rem;
 }
-#compact-toggle:checked ~ .app-shell .card {
+.compact-toggle_:checked ~ .app-shell .card {
   padding: 1rem;
 }
-#compact-toggle:checked ~ .app-shell .kpi__value {
+.compact-toggle_:checked ~ .app-shell .kpi__value {
   font-size: 1.6rem;
 }
 
-/* --- BASE STYLES --- */
+/* --- BASE LAYOUT --- */
 body, .app-shell {
-  margin: 0;
   background-color: var(--bg-page);
   color: var(--text-main);
   font-family: "Plus Jakarta Sans", sans-serif;
-  transition: background-color 0.4s ease, color 0.4s ease;
+  transition: all 0.4s ease;
   min-height: 100vh;
-  width: 100%;
-  overflow-x: hidden; /* Prevent horizontal scroll */
+  overflow-x: clip;
 }
 
 .dashboard-header {
@@ -80,49 +79,49 @@ body, .app-shell {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 0.625rem;
 }
 
 .logo-mark {
-  width: 24px;
-  height: 24px;
-  border: 4px solid var(--accent);
-  border-radius: 6px;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 0.25rem solid var(--accent);
+  border-radius: 0.375rem;
 }
 
 /* --- GRID SYSTEM --- */
+/* Mobile-first layout using named areas for easy reorganization. */
 .dashboard-container {
   display: grid;
-  width: 100%;
-  max-width: 1300px;
-  margin: 0 auto;
+  max-width: 81.25rem;
+  margin-inline: auto;
   gap: 1.5rem;
   padding: 0 1rem;
   grid-template-columns: 1fr;
   grid-template-areas: "kpi1" "kpi2" "kpi3" "main-chart" "side-chart" "matrix" "timeline" "accordion-widget" "tabs-widget" "settings";
 }
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .dashboard-container {
     grid-template-columns: 1fr 1fr;
     grid-template-areas: "kpi1 kpi2" "kpi3 accordion-widget" "main-chart main-chart" "side-chart tabs-widget" "matrix matrix" "timeline timeline" "settings settings";
   }
 }
-@media (min-width: 1100px) {
+@media (min-width: 68.75rem) {
   .dashboard-container {
     grid-template-columns: repeat(3, 1fr);
     grid-template-areas: "main-chart main-chart kpi3" "main-chart main-chart side-chart" "kpi1 kpi2 side-chart" "timeline matrix matrix" "timeline accordion-widget tabs-widget" "settings settings settings";
   }
 }
 
-/* --- CARD DECORATION --- */
+/* --- CARD UI --- */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 20px;
+  border-radius: 1.25rem;
   padding: 1.5rem;
   box-shadow: var(--shadow);
-  transition: transform 0.3s, background 0.4s, border 0.4s;
-  overflow: hidden;
+  transition: transform 0.3s, background 0.4s;
+  overflow: clip;
 }
 
 .kpi .kpi__label {
@@ -136,7 +135,7 @@ body, .app-shell {
   font-size: 2.2rem;
   font-weight: 800;
   display: block;
-  margin-top: 5px;
+  margin-top: 0.3rem;
 }
 
 .text-hot {
@@ -147,11 +146,11 @@ body, .app-shell {
   color: var(--cool);
 }
 
-/* --- EVENT STREAM FIX --- */
+/* --- INTERACTIVE WIDGETS --- */
 .stream {
   position: relative;
-  padding-left: 20px;
-  border-left: 2px solid var(--border);
+  padding-left: 1.25rem;
+  border-left: 0.125rem solid var(--border);
   margin-top: 1rem;
 }
 
@@ -164,186 +163,148 @@ body, .app-shell {
 .event::before {
   content: "";
   position: absolute;
-  left: -27px;
-  top: 6px;
-  width: 12px;
-  height: 12px;
+  left: -1.7rem;
+  top: 0.375rem;
+  width: 0.75rem;
+  height: 0.75rem;
   border-radius: 50%;
   background: var(--text-muted);
-  border: 2px solid var(--bg-page);
+  border: 0.125rem solid var(--bg-page);
   transition: 0.3s;
 }
 
 .event p {
   max-height: 0;
   opacity: 0;
-  overflow: hidden;
   margin: 0;
+  overflow: clip;
   transition: all 0.3s ease;
   font-size: 0.85rem;
   color: var(--text-muted);
 }
 
 .event:hover p, .event.active p {
-  max-height: 80px;
+  max-height: 5rem;
   opacity: 1;
-  margin-top: 5px;
+  margin-top: 0.3125rem;
 }
 
 .event:hover::before {
   background: var(--accent);
-  box-shadow: 0 0 10px var(--accent);
+  box-shadow: 0 0 0.625rem var(--accent);
 }
 
 /* --- SETTINGS SWITCHES --- */
 .settings-wrapper {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 0.625rem;
   margin-top: 1rem;
 }
 
 .setting-item {
-  flex: 1 1 200px;
+  flex: 1 1 12.5rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   background: rgba(128, 128, 128, 0.1);
-  padding: 12px 15px;
-  border-radius: 12px;
+  padding: 0.75rem 0.93rem;
+  border-radius: 0.75rem;
   cursor: pointer;
 }
 
 .toggle {
-  width: 40px;
-  height: 20px;
+  width: 2.5rem;
+  height: 1.25rem;
   background: #334155;
-  border-radius: 20px;
+  border-radius: 1.25rem;
   position: relative;
   transition: 0.3s;
 }
 
 .toggle .ball {
   position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 16px;
-  height: 16px;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1rem;
+  height: 1rem;
   background: white;
   border-radius: 50%;
   transition: 0.3s;
 }
 
-#theme-toggle:checked ~ .app-shell [for=theme-toggle] .toggle,
-#compact-toggle:checked ~ .app-shell [for=compact-toggle] .toggle,
-#glass-toggle:checked ~ .app-shell [for=glass-toggle] .toggle {
+/* Switches state visuals based on the hidden checkboxes at the top of the HTML. */
+.theme-toggle_:checked ~ .app-shell [for=theme-toggle] .toggle,
+.compact-toggle_:checked ~ .app-shell [for=compact-toggle] .toggle,
+.glass-toggle_:checked ~ .app-shell [for=glass-toggle] .toggle {
   background: var(--accent);
 }
 
-#theme-toggle:checked ~ .app-shell [for=theme-toggle] .ball,
-#compact-toggle:checked ~ .app-shell [for=compact-toggle] .ball,
-#glass-toggle:checked ~ .app-shell [for=glass-toggle] .ball {
-  transform: translateX(20px);
+.theme-toggle_:checked ~ .app-shell [for=theme-toggle] .ball,
+.compact-toggle_:checked ~ .app-shell [for=compact-toggle] .ball,
+.glass-toggle_:checked ~ .app-shell [for=glass-toggle] .ball {
+  transform: translateX(1.25rem);
 }
 
-/* --- TAB WIDGET LOGIC FIX --- */
+/* --- TAB LOGIC --- */
 .tab-logic {
-  display: none; /* Hide the actual radio dots */
+  display: none;
 }
 
 .tab-nav {
   display: flex;
-  gap: 15px;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 15px;
+  gap: 0.93rem;
+  border-bottom: 0.0625rem solid var(--border);
+  margin-bottom: 0.93rem;
 }
 
 .tab-nav label {
-  padding: 8px 0;
+  padding: 0.5rem 0;
   cursor: pointer;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--text-muted);
   transition: 0.3s;
-  border-bottom: 2px solid transparent;
+  border-bottom: 0.125rem solid transparent;
 }
 
-/* Tab Switching Logic */
 .tab-content {
   display: none;
   animation: fadeIn 0.3s ease;
 }
 
-#tab1:checked ~ .content1,
-#tab2:checked ~ .content2 {
+.tab1_:checked ~ .content1, .tab2_:checked ~ .content2 {
   display: block;
 }
 
-/* Active Tab Styling */
-#tab1:checked ~ .tab-nav label[for=tab1],
-#tab2:checked ~ .tab-nav label[for=tab2] {
+.tab1_:checked ~ .tab-nav label[for=tab1], .tab2_:checked ~ .tab-nav label[for=tab2] {
   color: var(--accent);
   border-bottom-color: var(--accent);
-}
-
-/* Light Mode Text Fix for Tabs */
-#theme-toggle:checked ~ .app-shell .tab-content {
-  color: var(--text-main);
 }
 
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(5px);
+    transform: translateY(0.3125rem);
   }
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
-/* --- FOOTER FIX --- */
-.dashboard-footer {
-  width: 100%;
-  padding: 3rem 1rem;
-  margin-top: 2rem;
-  border-top: 1px solid var(--border);
-}
-
-.footer-content {
-  max-width: 1300px;
-  margin: 0 auto;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: space-between;
-}
-
-.footer-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  font-size: 0.75rem;
-  align-items: center;
-}
-
-.footer-meta a {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-/* --- CHART VISUALS --- */
+/* --- DATA VISUALIZATIONS --- */
 .bar-chart-area {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  height: 160px;
-  border-bottom: 1px solid var(--border);
+  height: 10rem;
+  border-bottom: 0.0625rem solid var(--border);
 }
 
 .bar {
   width: 15%;
   background: linear-gradient(to top, var(--accent), var(--hot));
-  border-radius: 5px 5px 0 0;
+  border-radius: 0.3rem 0.3rem 0 0;
   transition: 1s ease;
   height: 20%;
   position: relative;
@@ -352,10 +313,10 @@ body, .app-shell {
 .bar::after {
   content: attr(data-year);
   position: absolute;
-  bottom: -25px;
+  bottom: -1.5rem;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 10px;
+  font-size: 0.625rem;
   color: var(--text-muted);
 }
 
@@ -364,22 +325,22 @@ body, .app-shell {
 }
 
 .donut {
-  width: 120px;
-  height: 120px;
-  margin: 10px auto;
+  width: 7.5rem;
+  height: 7.5rem;
+  margin: 0.625rem auto;
   border-radius: 50%;
   background: conic-gradient(var(--cool) 0% 30%, #fbbf24 30% 60%, var(--hot) 60% 100%);
-  -webkit-mask: radial-gradient(transparent 55%, black 56%);
   mask: radial-gradient(transparent 55%, black 56%);
+  -webkit-mask: radial-gradient(transparent 55%, black 56%);
 }
 
 .heatmap-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
-  margin-top: 10px;
+  gap: 0.3rem;
+  margin-top: 0.625rem;
 }
-@media (min-width: 768px) {
+@media (min-width: 48rem) {
   .heatmap-grid {
     grid-template-columns: repeat(12, 1fr);
   }
@@ -387,31 +348,13 @@ body, .app-shell {
 
 .cell {
   aspect-ratio: 1;
-  border-radius: 3px;
+  border-radius: 0.18rem;
   background: rgba(251, 113, 133, var(--intensity));
   transition: 0.2s;
 }
 
 .cell:hover {
   transform: scale(1.2);
-  outline: 1px solid var(--accent);
+  outline: 0.0625rem solid var(--accent);
   z-index: 2;
-}
-
-@keyframes change_temperature {
-  0% {
-    content: "+1.18°C";
-  }
-  25% {
-    content: "+1.00°C";
-  }
-  50% {
-    content: "+1.67°C";
-  }
-  75% {
-    content: "+2.00°C";
-  }
-  100% {
-    content: "+1.56°C";
-  }
 }/*# sourceMappingURL=style.css.map */
