@@ -357,4 +357,31 @@ body, .app-shell {
   transform: scale(1.2);
   outline: 0.0625rem solid var(--accent);
   z-index: 2;
+}
+
+.dashboard-footer {
+  padding: 3rem 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.footer-content {
+  max-width: 1300px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-inline: auto;
+}
+
+.footer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.75rem;
+  align-items: center;
+}
+
+.footer-meta a {
+  color: var(--accent);
+  text-decoration: none;
 }/*# sourceMappingURL=style.css.map */
